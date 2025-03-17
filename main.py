@@ -1,23 +1,32 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.io import wavfile
-from sklearn.cluster import KMeans
-import scipy.signal as signal
-from scipy.io.wavfile import write
-import librosa
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import plot_tree
 
-#read the big audio file
-file_path = "ljudklipp/main_file.wav"
-sample_rate, audio_data = wavfile.read(file_path)
+# Load MFCCs from CSV file
+mfcc_features = pd.read_csv('features/mfcc_features.csv', header=None).values
 
-# Split audio into segments
-segment_length = 1.0  # 1 second segments
-num_segments = int(len(audio_data) / (sample_rate * segment_length))
-segments = np.array_split(audio_data, num_segments)
+# Manually label the data (example labels)
+labels = [1 if i % 2 == 0 else 0 for i in range(len(mfcc_features))]  # 0: background noise, 1: ping pong ball
 
-# Extract features (MFCCs)
-def extract_features(segment, sample_rate):
-    mfccs = librosa.feature.mfcc(y=segment, sr=sample_rate, n_mfcc=13)
-    return np.mean(mfccs.T, axis=0)
+# Train Random Forest classifier
+clf = RandomForestClassifier(n_estimators=100)
+clf.fit(mfcc_features, labels)
 
-features = [extract_features(segment, sample_rate) for segment in segments]
+# Evaluate the model
+predictions = clf.predict(mfcc_features)
+accuracy = np.mean(predictions == labels)
+print(f"Model accuracy: {accuracy * 100:.2f}%")
+
+# Load MFCCs from CSV file
+test_mfcc_features = pd.read_csv('features/test_mfcc_features.csv', header=None).values
+
+# Ensure the features are in the correct shape (1 sample with multiple features)
+test_mfcc_features = test_mfcc_features
+
+# Predict using the trained model
+test_prediction = clf.predict(test_mfcc_features)
+
+# Print prediction
+label = "Ping Pong Ball" if test_prediction[0] == 1 else "Background Noise"
+print(f"Prediction for the test audio: {label}")
