@@ -9,16 +9,13 @@ pos_mfcc_features = pd.read_csv('features/pos_mfcc_features.csv', header=None).v
 
 neg_mfcc_features = pd.read_csv('features/neg_mfcc_features.csv', header=None).values
 
-print(neg_mfcc_features.size)
+silence_mfcc_features = pd.read_csv('features/silence_mfcc_features.csv', header=None).values
+mfcc_features = np.vstack((pos_mfcc_features, neg_mfcc_features, silence_mfcc_features))
 
-mfcc_features = np.vstack((pos_mfcc_features, neg_mfcc_features))
-
-print(mfcc_features.size)
 
 # Manually label the data (example labels)
-labels = np.hstack((np.ones(pos_mfcc_features.shape[0]), np.zeros(neg_mfcc_features.shape[0])))
+labels = np.hstack((np.ones(pos_mfcc_features.shape[0]), np.zeros(neg_mfcc_features.shape[0]), np.zeros(silence_mfcc_features.shape[0])))
 
-print(labels)
 # Train Random Forest classifier
 clf = RandomForestClassifier(n_estimators=100)
 clf.fit(mfcc_features, labels)
@@ -31,4 +28,6 @@ clf.fit(mfcc_features, labels)
 
 # Save the model to a file
 joblib.dump(clf, 'random_forest_model.pkl')
+
+print("done")
 

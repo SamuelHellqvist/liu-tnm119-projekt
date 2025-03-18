@@ -7,10 +7,12 @@ clf_loaded = joblib.load('random_forest_model.pkl')
 # Load MFCCs from CSV file
 test_mfcc_features_positive = pd.read_csv('features/test_mfcc_features_pingpongBall.csv', header=None).values
 test_mfcc_features_negative = pd.read_csv('features/test_mfcc_features_backgroundNoise.csv', header=None).values
+test_mfcc_features_silence = pd.read_csv('features/test_mfcc_features_silence.csv', header=None).values
 
 # Ensure the features are in the correct shape (1 sample with multiple features)
 #test_mfcc_features = test_mfcc_features_positive
-test_mfcc_features = test_mfcc_features_negative
+#test_mfcc_features = test_mfcc_features_negative
+test_mfcc_features = test_mfcc_features_silence
 
 # Predict using the trained model
 test_prediction = clf_loaded.predict(test_mfcc_features)
