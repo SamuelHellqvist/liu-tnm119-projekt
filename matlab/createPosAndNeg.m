@@ -5,20 +5,7 @@
 [pos_file_path, pos_sample_rate] = audioread('ljudklipp/testljud/10secOfPingPongBalls.WAV');
 pos_coeffs = mfcc(pos_file_path, pos_sample_rate);
 
-%meanMfcc = 0;
-%meanMfccs = [];
-for i = length(pos_coeffs)
-    if mod(i, 100) == ~0
-        meanMfcc = meanMfcc+ pos_coeffs(i);
-        meanMfccs.add(meanMfcc);
-
-    else
-        meanMffc = 0;
-    end
-end
-
-
-csvwrite('pos_mfcc_features.csv', meanMfccs);
+csvwrite('features/pos_mfcc_features.csv', pos_coeffs);
 
 %%
 %negatives

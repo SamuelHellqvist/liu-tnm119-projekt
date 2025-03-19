@@ -9,14 +9,17 @@ meanMfcc = 0;
 meanMfccs = [];
 for i = length(pos_coeffs)
     if mod(i, 100) == 0
-        meanMfcc = meanMfcc+ pos_coeffs(i);
-        meanMfccs.add(meanMfcc);
+        meanMffc = 0;
+    else
+        MeanMfcc = meanMfcc + pos_coeffs(i);
+        meanMfccs(end + 1) = MeanMfcc;
     end
 end
 
 
-csvwrite('pos_mfcc_features.csv', pos_coeffs);
+csvwrite('features/pos_mfcc_features.csv', meanMfccs);
 
+%%
 %negatives
 [neg_file_path, neg_sample_rate] = audioread('ljudklipp/testljud/backGroundNoise.WAV');
 neg_coeffs = mfcc(neg_file_path, neg_sample_rate);
