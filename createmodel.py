@@ -15,6 +15,18 @@ for i in range(51):
     else:
         individual_mfcc_features = np.vstack((individual_mfcc_features, temp_mfcc_features))
 
+#load data from batch 2
+for i in range(65):
+    dynamic_string = f"features/pong_batch_2/pong_batch_2_{i+1}.csv"
+    temp_mfcc_features = pd.read_csv(dynamic_string, header=None).values
+
+    # adding the new feature to a big vector
+    if i == 0:
+        individual_mfcc_features_batch_2 = temp_mfcc_features
+    else:
+        individual_mfcc_features_batch_2 = np.vstack((individual_mfcc_features_batch_2, 
+                                                        temp_mfcc_features))
+
 #load the synthetic data and save it to the individual_mfcc_features
 for i in range(4):
     dynamic_string = f"features/synthetic/synthetic_{i+1}.csv"
@@ -39,7 +51,8 @@ thirdparty_mfcc_features = pd.read_csv('features/thirdparty_mfcc_features.csv', 
 
 # the training vecotr
 mfcc_features = np.vstack((individual_mfcc_features, 
-                           individual_mfcc_features_synthetic, 
+                           individual_mfcc_features_synthetic,
+                           individual_mfcc_features_batch_2, 
                            pos_mfcc_features, 
                            neg_mfcc_features, 
                            silence_mfcc_features, 
@@ -49,6 +62,7 @@ mfcc_features = np.vstack((individual_mfcc_features,
 # Manually label the data (example labels)
 labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), 
                     np.ones(individual_mfcc_features_synthetic.shape[0]),
+                    np.ones(individual_mfcc_features_batch_2.shape[0]),
                     np.ones(pos_mfcc_features.shape[0]), 
                     np.zeros(neg_mfcc_features.shape[0]), 
                     np.zeros(silence_mfcc_features.shape[0]), 
