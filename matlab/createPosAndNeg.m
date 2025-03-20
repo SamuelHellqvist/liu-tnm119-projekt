@@ -18,3 +18,9 @@ csvwrite('neg_mfcc_features.csv', neg_coeffs);
 silence_coeffs = mfcc(silence_file_path, silence_sample_rate);
 csvwrite('silence_mfcc_features.csv', silence_coeffs);
 
+%% data from the internet
+[thirdparty_file_path, thirdparty_sample_rate] = audioread('ljudklipp/testljud/fallandeBoll.WAV');
+thirdparty_coeffs = mfcc(thirdparty_file_path, thirdparty_sample_rate);
+csvwrite('features/thirdparty_mfcc_features.csv', thirdparty_coeffs);
+
+

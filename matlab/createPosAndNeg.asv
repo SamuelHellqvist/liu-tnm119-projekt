@@ -5,19 +5,7 @@
 [pos_file_path, pos_sample_rate] = audioread('ljudklipp/testljud/10secOfPingPongBalls.WAV');
 pos_coeffs = mfcc(pos_file_path, pos_sample_rate);
 
-meanMfcc = 0;
-meanMfccs = [];
-for i = length(pos_coeffs)
-    if mod(i, 100) == 0
-        meanMffc = 0;
-    else
-        MeanMfcc = meanMfcc + pos_coeffs(i);
-        meanMfccs(end + 1) = MeanMfcc;
-    end
-end
-
-
-csvwrite('features/pos_mfcc_features.csv', meanMfccs);
+csvwrite('features/pos_mfcc_features.csv', pos_coeffs);
 
 %%
 %negatives
@@ -29,4 +17,6 @@ csvwrite('neg_mfcc_features.csv', neg_coeffs);
 [silence_file_path, silence_sample_rate] = audioread('ljudklipp/inspelat ljud/silence.WAV');
 silence_coeffs = mfcc(silence_file_path, silence_sample_rate);
 csvwrite('silence_mfcc_features.csv', silence_coeffs);
+
+%% data from the internet
 

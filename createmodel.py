@@ -27,29 +27,34 @@ for i in range(4):
         individual_mfcc_features_synthetic = np.vstack((individual_mfcc_features_synthetic, 
                                                         temp_mfcc_features))
 
-
-# Load MFCCs from CSV file
+# Load MFCCs from CSV file (our original data)
 pos_mfcc_features = pd.read_csv('features/pos_mfcc_features.csv', header=None).values
 
 neg_mfcc_features = pd.read_csv('features/neg_mfcc_features.csv', header=None).values
 
 silence_mfcc_features = pd.read_csv('features/silence_mfcc_features.csv', header=None).values
 
+# Load MFCCs from CSV file (downloaded data from the internet)
+thirdparty_mfcc_features = pd.read_csv('features/thirdparty_mfcc_features.csv', header=None).values
+
 # the training vecotr
 mfcc_features = np.vstack((individual_mfcc_features, 
                            individual_mfcc_features_synthetic, 
-                           neg_mfcc_features,
-                           silence_mfcc_features))
+                           pos_mfcc_features, 
+                           neg_mfcc_features, 
+                           silence_mfcc_features, 
+                           thirdparty_mfcc_features))
 
 
 # Manually label the data (example labels)
 labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), 
                     np.ones(individual_mfcc_features_synthetic.shape[0]),
+                    np.ones(pos_mfcc_features.shape[0]), 
+                    np.zeros(neg_mfcc_features.shape[0]), 
+                    np.zeros(silence_mfcc_features.shape[0]), 
+                    np.ones(thirdparty_mfcc_features.shape[0])))
 
-                    np.zeros(neg_mfcc_features.shape[0]),
-                    np.zeros(silence_mfcc_features.shape[0])))
-
-# Train Random Forest classifier
+# Train a Random Forest Classifier
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(mfcc_features, labels)
 
