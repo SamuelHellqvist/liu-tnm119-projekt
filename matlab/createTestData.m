@@ -35,3 +35,13 @@ test_coeffs = mfcc(test_file_path, test_sample_rate, 'NumCoeffs', 13);
 
 % Save MFCCs to a CSV file
 csvwrite('test_mfcc_features_silentPingPongBall.csv', test_coeffs);
+
+%% clear pingpongball (should be ping pong ball)
+[test_file_path, test_sample_rate] = audioread('ljudklipp/testljud/pongStuds.WAV');
+
+
+% Extract MFCCs from test audio
+test_coeffs = mfcc(test_file_path, test_sample_rate, 'NumCoeffs', 13);
+
+% Save MFCCs to a CSV file
+csvwrite('test_mfcc_features_pongStuds.csv', test_coeffs);

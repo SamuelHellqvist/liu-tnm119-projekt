@@ -4,27 +4,46 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import plot_tree
 import joblib
 
+#load data from individual pong sonds
+for i in range(51):
+    dynamic_string = f"linus_data/pong_{i+1}.csv"
+    temp_mfcc_features = pd.read_csv(dynamic_string, header=None).values
+
+    # adding the new feature to a big vector
+    if i == 0:
+        individual_mfcc_features = temp_mfcc_features
+    else:
+        individual_mfcc_features = np.vstack((individual_mfcc_features, temp_mfcc_features))
+
+#load the synthetic data and save it to the individual_mfcc_features
+for i in range(51):
+    dynamic_string = f"features/synthetic/synthetic_{i+1}.csv"
+    temp_mfcc_features = pd.read_csv(dynamic_string, header=None).values
+
+    # adding the new feature to a big vector
+    if i == 0:
+        individual_mfcc_features_synthetic = temp_mfcc_features
+    else:
+        individual_mfcc_features_synthetic = np.vstack((individual_mfcc_features_synthetic, temp_mfcc_features))
+
+
 # Load MFCCs from CSV file
 pos_mfcc_features = pd.read_csv('features/pos_mfcc_features.csv', header=None).values
 
 neg_mfcc_features = pd.read_csv('features/neg_mfcc_features.csv', header=None).values
 
 silence_mfcc_features = pd.read_csv('features/silence_mfcc_features.csv', header=None).values
-mfcc_features = np.vstack((pos_mfcc_features, neg_mfcc_features, silence_mfcc_features))
+
+# the training vecotr
+mfcc_features = np.vstack((individual_mfcc_features, individual_mfcc_features_synthetic, pos_mfcc_features, neg_mfcc_features, silence_mfcc_features))
 
 
 # Manually label the data (example labels)
-labels = np.hstack((np.ones(pos_mfcc_features.shape[0]), np.zeros(neg_mfcc_features.shape[0]), np.zeros(silence_mfcc_features.shape[0])))
+labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), np.ones(individual_mfcc_features_synthetic.shape[0]), np.ones(pos_mfcc_features.shape[0]), np.zeros(neg_mfcc_features.shape[0]), np.zeros(silence_mfcc_features.shape[0])))
 
 # Train Random Forest classifier
-clf = RandomForestClassifier(n_estimators=100)
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(mfcc_features, labels)
-
-# # Evaluate the model
-# predictions = clf.predict(mfcc_features)
-# accuracy = np.mean(predictions == labels)
-# print(f"Model accuracy: {accuracy * 100:.2f}%")
-
 
 # Save the model to a file
 joblib.dump(clf, 'random_forest_model.pkl')
