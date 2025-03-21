@@ -66,3 +66,13 @@ test_coeffs = mfcc(test_file_path, test_sample_rate, 'NumCoeffs', 13);
 
 % Save MFCCs to a CSV file
 csvwrite('test_mfcc_features_pos_test.csv', test_coeffs);
+
+%% positive test from trappan
+[test_file_path, test_sample_rate] = audioread('ljudklipp/testljud/trappan_test.WAV');
+
+
+% Extract MFCCs from test audio
+test_coeffs = mfcc(test_file_path, test_sample_rate, 'NumCoeffs', 13);
+
+% Save MFCCs to a CSV file
+csvwrite('test_mfcc_features_trappan_pos.csv', test_coeffs);
