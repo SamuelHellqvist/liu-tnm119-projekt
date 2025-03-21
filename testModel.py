@@ -15,13 +15,19 @@ test_mfcc_features_silentPositive = pd.read_csv('features/test_mfcc_features_sil
                                                 header=None).values
 test_mfcc_features_positive_2 = pd.read_csv('features/test_mfcc_features_pongStuds.csv', 
                                             header=None).values
+test_mfcc_features_speech = pd.read_csv('features/test_mfcc_features_prat.csv',
+                                            header=None).values
+test_mfcc_features_positive_3 = pd.read_csv('features/test_mfcc_features_pos_test.csv', 
+                                            header=None).values
 
 # Ensure the features are in the correct shape (1 sample with multiple features)
-test_mfcc_features = test_mfcc_features_positive #should be ping pong ball
+#test_mfcc_features = test_mfcc_features_positive #should be ping pong ball
 #test_mfcc_features = test_mfcc_features_negative #should be background noise
 #test_mfcc_features = test_mfcc_features_silence #should be background noise
 #test_mfcc_features = test_mfcc_features_silentPositive #should be ping pong ball, denna blir FEL
 #test_mfcc_features = test_mfcc_features_positive_2 #should be ping pong ball
+#test_mfcc_features = test_mfcc_features_speech #should be negative
+test_mfcc_features = test_mfcc_features_positive_3 #should be positive, from the internet
 
 # Predict using the trained model
 test_prediction = clf_loaded.predict(test_mfcc_features)

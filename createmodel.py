@@ -39,6 +39,17 @@ for i in range(4):
         individual_mfcc_features_synthetic = np.vstack((individual_mfcc_features_synthetic, 
                                                         temp_mfcc_features))
 
+#load the 5 specialized synthetic files (produced with chatgpt)
+for i in range(5):
+    dynamic_string = f"features/synthetic_2/synthetic_file_{i}.csv"
+    temp_mfcc_features = pd.read_csv(dynamic_string, header=None).values
+
+    if i == 0:
+        individual_mfcc_features_synthetic_2 = temp_mfcc_features
+    else:
+        individual_mfcc_features_synthetic_2 = np.vstack((individual_mfcc_features_synthetic_2, 
+                                                          temp_mfcc_features))
+
 # Load MFCCs from CSV file (our original data)
 pos_mfcc_features = pd.read_csv('features/pos_mfcc_features.csv', header=None).values
 
@@ -52,6 +63,7 @@ thirdparty_mfcc_features = pd.read_csv('features/thirdparty_mfcc_features.csv', 
 # the training vecotr
 mfcc_features = np.vstack((individual_mfcc_features, 
                            individual_mfcc_features_synthetic,
+                           individual_mfcc_features_synthetic_2,
                            individual_mfcc_features_batch_2, 
                            pos_mfcc_features, 
                            neg_mfcc_features, 
@@ -62,6 +74,7 @@ mfcc_features = np.vstack((individual_mfcc_features,
 # Manually label the data (example labels)
 labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), 
                     np.ones(individual_mfcc_features_synthetic.shape[0]),
+                    np.ones(individual_mfcc_features_synthetic_2.shape[0]),
                     np.ones(individual_mfcc_features_batch_2.shape[0]),
                     np.ones(pos_mfcc_features.shape[0]), 
                     np.zeros(neg_mfcc_features.shape[0]), 
