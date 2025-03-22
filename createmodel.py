@@ -71,7 +71,7 @@ mfcc_features = np.vstack((individual_mfcc_features,
                            thirdparty_mfcc_features))
 
 
-# Manually label the data (example labels)
+# Manually label the data
 labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), 
                     np.ones(individual_mfcc_features_synthetic.shape[0]),
                     np.ones(individual_mfcc_features_synthetic_2.shape[0]),
