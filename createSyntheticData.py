@@ -14,7 +14,7 @@ def add_variations(df, variation_factor=0.05):
 # generate 5 synthetic datapoints
 for i in range(5):
     synthetic_df = add_variations(original_df)
-    synthetic_df.to_csv(f'synthetic_file_{i}.csv', index=False)
+    synthetic_df.to_csv(f'random_file_{i}.csv', index=False)
 
 
-print("Synthetic data generated and saved to 'synthetic_file.csv'")
+print("Synthetic data generated and saved to 'random_file.csv'")

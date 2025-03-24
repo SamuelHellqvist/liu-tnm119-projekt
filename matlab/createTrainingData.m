@@ -67,6 +67,8 @@ for i = 1:numIterations
     % saving mfcc
     [file_path, sample_rate] = audioread(newFilePath);
     coeffs = mfcc(file_path, sample_rate, NumCoeffs=13);
+    coeffs = coeffs(:, 1:13);  % Ensure only 13 coefficients are used
+
 
     saveAs = [newString, '.csv'];
     csvwrite(saveAs, coeffs);

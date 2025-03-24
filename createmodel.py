@@ -31,15 +31,15 @@ for i in range(115):
 #                                                         temp_mfcc_features))
 
 #load the 5 specialized random files (produced with ai and randomizer)
-# for i in range(5):
-#     dynamic_string = f"features/synthetic_2/synthetic_file_{i}.csv"
-#     temp_mfcc_features = pd.read_csv(dynamic_string, header=None).values
+for i in range(5):
+    dynamic_string = f"features/randomly_generated/random_file_{i}.csv"
+    temp_mfcc_features = pd.read_csv(dynamic_string, header=None).values
 
-#     if i == 0:
-#         individual_mfcc_features_synthetic_2 = temp_mfcc_features
-#     else:
-#         individual_mfcc_features_synthetic_2 = np.vstack((individual_mfcc_features_synthetic_2, 
-#                                                           temp_mfcc_features))
+    if i == 0:
+        individual_mfcc_features_random = temp_mfcc_features
+    else:
+        individual_mfcc_features_random = np.vstack((individual_mfcc_features_random, 
+                                                          temp_mfcc_features))
 
 # Load MFCCs from CSV file (our original data)
 #pos_mfcc_features = pd.read_csv('features/pos_mfcc_features.csv', header=None).values
@@ -53,7 +53,7 @@ neg_mfcc_features = pd.read_csv('features/neg_mfcc_features.csv', header=None).v
 
 # the training vecotr
 mfcc_features = np.vstack((individual_mfcc_features, 
-                        
+                           individual_mfcc_features_random, 
                            neg_mfcc_features
                         
                             
@@ -62,8 +62,9 @@ mfcc_features = np.vstack((individual_mfcc_features,
 
 
 # Manually label the data
-labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), 
-                            np.zeros(neg_mfcc_features.shape[0])
+labels = np.hstack((np.ones(individual_mfcc_features.shape[0]),
+                    np.ones(individual_mfcc_features_random.shape[0]),
+                    np.zeros(neg_mfcc_features.shape[0])
                             
                             ))
 
