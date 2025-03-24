@@ -1,4 +1,4 @@
-%% til linus filer
+%% til linus filer new  new new
 % Filename
 initialString = 'pong_';
 
