@@ -54,7 +54,7 @@ neg_mfcc_features = pd.read_csv('features/neg_mfcc_features.csv', header=None).v
 # the training vecotr
 mfcc_features = np.vstack((individual_mfcc_features, 
                         
-                           
+                           neg_mfcc_features
                         
                             
                           
@@ -62,10 +62,10 @@ mfcc_features = np.vstack((individual_mfcc_features,
 
 
 # Manually label the data
-labels = np.hstack((np.ones(individual_mfcc_features.shape[0])
-                    
-                   , 
-                 ))
+labels = np.hstack((np.ones(individual_mfcc_features.shape[0]), 
+                            np.zeros(neg_mfcc_features.shape[0])
+                            
+                            ))
 
 # Train a Random Forest Classifier
 clf = RandomForestClassifier(n_estimators=100, random_state=42)

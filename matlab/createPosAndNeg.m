@@ -11,8 +11,10 @@ csvwrite('features/pos_mfcc_features.csv', pos_coeffs);
 %negatives
 [neg_file_path, neg_sample_rate] = audioread('ljudklipp/testljud/backGroundNoise.WAV');
 neg_coeffs = mfcc(neg_file_path, neg_sample_rate);
+neg_coeffs = neg_coeffs(:, 1:13);  % Ensure only 13 coefficients are used
 csvwrite('neg_mfcc_features.csv', neg_coeffs);
 
+%%
 % silence (should also be negatives)
 [silence_file_path, silence_sample_rate] = audioread('ljudklipp/inspelat ljud/silence.WAV');
 silence_coeffs = mfcc(silence_file_path, silence_sample_rate, 'NumCoeffs', 13);
