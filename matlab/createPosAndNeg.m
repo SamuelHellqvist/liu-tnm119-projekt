@@ -3,7 +3,7 @@
 
 %positives
 [pos_file_path, pos_sample_rate] = audioread('ljudklipp/testljud/10secOfPingPongBalls.WAV');
-pos_coeffs = mfcc(pos_file_path, pos_sample_rate);
+pos_coeffs = mfcc(pos_file_path, pos_sample_rate, NumCoeffs=13);
 
 csvwrite('features/pos_mfcc_features.csv', pos_coeffs);
 
@@ -15,12 +15,12 @@ csvwrite('neg_mfcc_features.csv', neg_coeffs);
 
 % silence (should also be negatives)
 [silence_file_path, silence_sample_rate] = audioread('ljudklipp/inspelat ljud/silence.WAV');
-silence_coeffs = mfcc(silence_file_path, silence_sample_rate);
+silence_coeffs = mfcc(silence_file_path, silence_sample_rate, 'NumCoeffs', 13);
 csvwrite('silence_mfcc_features.csv', silence_coeffs);
 
 %% data from the internet
 [thirdparty_file_path, thirdparty_sample_rate] = audioread('ljudklipp/testljud/fallandeBoll.WAV');
-thirdparty_coeffs = mfcc(thirdparty_file_path, thirdparty_sample_rate);
+thirdparty_coeffs = mfcc(thirdparty_file_path, thirdparty_sample_rate, 'NumCoeffs', 13);
 csvwrite('features/thirdparty_mfcc_features.csv', thirdparty_coeffs);
 
 

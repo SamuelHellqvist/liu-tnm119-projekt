@@ -13,7 +13,7 @@ for i = 1:numIterations
 
     % saving mfcc
     [file_path, sample_rate] = audioread(newFilePath);
-    coeffs = mfcc(file_path, sample_rate);
+    coeffs = mfcc(file_path, sample_rate, 'NumCoeffs', 13);
 
     saveAs = [newString, '.csv'];
     csvwrite(saveAs, coeffs);
@@ -38,7 +38,7 @@ for i = 1:numIterations
 
     % saving mfcc
     [file_path, sample_rate] = audioread(newFilePath);
-    coeffs = mfcc(file_path, sample_rate);
+    coeffs = mfcc(file_path, sample_rate, NumCoeffs=13);
 
     saveAs = [newString, '.csv'];
     csvwrite(saveAs, coeffs);

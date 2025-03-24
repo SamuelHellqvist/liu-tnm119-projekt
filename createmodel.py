@@ -3,6 +3,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import plot_tree
 import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 #load data from individual pong sonds
 for i in range(51):
@@ -84,6 +86,21 @@ labels = np.hstack((np.ones(individual_mfcc_features.shape[0]),
 # Train a Random Forest Classifier
 clf = RandomForestClassifier(n_estimators=100, random_state=42)
 clf.fit(mfcc_features, labels)
+
+# visulize feature importance
+feature_importances = clf.feature_importances_
+mfcc_features_importances = [f'MFCC-{i+1}' for i in range(len(feature_importances))]
+
+sorted_indices = np.argsort(feature_importances)[::-1]
+sorted_features = [mfcc_features_importances[i] for i in sorted_indices]
+sorted_importances = feature_importances[sorted_indices]
+
+plt.figure(figsize=(10, 5))
+sns.barplot(x=sorted_importances, y=sorted_features, palette="viridis")
+plt.xlabel("Feature Importance")
+plt.ylabel("MFCC Features")
+plt.title("Feature Importance of MFCCs in Table Tennis Sound Classification")
+plt.show()
 
 # Save the model to a file
 joblib.dump(clf, 'random_forest_model.pkl')
