@@ -24,7 +24,7 @@ SCREEN RECORDING: Matlab
 SCREEN RECORDING: Excel
   
   This is how the data looks in Excel. As you can see, there are 13 values per row. 
-  Each MFCC consists of 13 values, and every second contains 100 MFCCs.
+  Each MFCC consists of 13 values, and every secound of video gets 100 MFCCs.
 
 SCREEN RECORDING: Python
   
