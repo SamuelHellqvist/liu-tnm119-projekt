@@ -1,0 +1,28 @@
+TRAPPAN
+
+  Hello! Welcome to our demo video, where we will present our project for the TNM119 course.
+    
+  We will start by dropping a ping pong ball onto this table. We will record the sound using four different microphones. This setup is similar to how we will configure the microphones for our upcoming bachelor’s project.
+    
+  (Drop the ping pong ball onto the table and record the sound)
+    
+  Next, we need a sound that is not classified as a ping pong ball, so we’ll use speech.
+    
+  (Say "Hello" into the microphone)
+
+SCREEN RECORDING: Media Player
+  
+  Here are the sound files we have recorded.
+  
+  (Play the sounds)
+
+SCREEN RECORDING: Matlab
+  We then use Matlab to extract the MFCC (Mel-Frequency Cepstral Coefficients) from the recordings.
+
+SCREEN RECORDING: Excel
+  
+  This is how the data looks in Excel. As you can see, there are 13 values per row. Each MFCC consists of 13 values, and every second contains 100 MFCCs.
+
+SCREEN RECORDING: Python
+  
+  Now, we use the MFCCs in Python. We’ve saved our AI model as a pickle file. As you can see, the model classifies the first sound as a ping pong ball and the second sound as background noise.
