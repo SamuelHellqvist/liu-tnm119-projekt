@@ -1,4 +1,10 @@
 import pyaudio
+import numpy as np
+import joblib
+import librosa
+
+# Load the pre-trained Random Forest model
+model = joblib.load("random_forest_model.pkl")
 
 # Parameters
 CHUNK = 1024  # Number of audio frames per buffer
@@ -16,29 +22,43 @@ stream_input = p.open(format=FORMAT,
                       input=True,
                       frames_per_buffer=CHUNK)
 
-# Open output stream (speaker)
-stream_output = p.open(format=FORMAT,
-                       channels=CHANNELS,
-                       rate=RATE,
-                       output=True,
-                       frames_per_buffer=CHUNK)
+print("Listening for table tennis ball sounds... Press Ctrl+C to stop.")
 
-print("Listening and playing back... Press Ctrl+C to stop.")
+def extract_features(audio_data, rate):
+    """Extract relevant features from audio data for classification."""
+    # Convert raw audio bytes to numpy array
+    audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32)
+    
+    # Ensure n_fft is smaller or equal to the chunk size
+    n_fft = min(1024, len(audio_array))  # Use CHUNK size or smaller
+    
+    # Extract MFCC features
+    mfccs = librosa.feature.mfcc(y=audio_array, sr=rate, n_mfcc=13, n_fft=n_fft, hop_length=512)
+    mfccs_mean = np.mean(mfccs, axis=1)  # Take mean of each MFCC feature
+    return mfccs_mean.reshape(1, -1)  # Reshape for model input
+
 
 try:
     while True:
         # Read audio data from microphone
-        data = stream_input.read(CHUNK)
-        # Play back the audio data
-        stream_output.write(data)
+        data = stream_input.read(CHUNK, exception_on_overflow=False)
+        
+        # Extract features
+        features = extract_features(data, RATE)
+        
+        # Predict using the Random Forest model
+        prediction = model.predict(features)
+        
+        # Check if the model detects a table tennis ball sound
+        if prediction[0] == 1:  # Assuming 1 means table tennis ball sound
+            print("Detected ball sound!")
+
 except KeyboardInterrupt:
     print("\nStopping...")
 
-# Close streams
+# Close stream
 stream_input.stop_stream()
 stream_input.close()
-stream_output.stop_stream()
-stream_output.close()
 
 # Terminate PyAudio
 p.terminate()
