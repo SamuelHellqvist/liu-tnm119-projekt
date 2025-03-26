@@ -42,12 +42,14 @@ neg_mfcc_features = pd.read_csv('features/neg_mfcc_features.csv', header=None).v
 
 # The training vector
 mfcc_features = np.vstack((individual_mfcc_features, 
-                           individual_mfcc_features_random, 
+                           individual_mfcc_features_random,
+                           individual_mfcc_features_synthetic, 
                            neg_mfcc_features))
 
 # Manually label the data
 labels = np.hstack((np.ones(individual_mfcc_features.shape[0]),
                     np.ones(individual_mfcc_features_random.shape[0]),
+                    np.ones(individual_mfcc_features_synthetic.shape[0]),
                     np.zeros(neg_mfcc_features.shape[0])))
 
 # Train a Random Forest Classifier
