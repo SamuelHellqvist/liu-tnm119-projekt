@@ -36,5 +36,13 @@ test_mfcc_features = test_mfcc_features_silentPositive #should be ping pong ball
 test_prediction = clf_loaded.predict(test_mfcc_features)
 
 # Print prediction
-label = "Ping Pong Ball" if test_prediction[0] == 1 else "Background Noise"
-print(f"Prediction for the test audio: {label}")
+# label = "Ping Pong Ball" if test_prediction[0] == 1 else "Background Noise"
+# print(f"Prediction for the test audio: {label}")
+
+# Count ones and zeros in predictions
+ones = sum(1 for prediction in test_prediction if prediction == 1)
+zeros = sum(1 for prediction in test_prediction if prediction == 0)
+
+# Classify based on counts
+final_label = "Ping Pong Ball" if ones > zeros * 0.3 else "Background Noise"
+print(f"Final classification based on all predictions: {final_label}")

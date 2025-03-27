@@ -77,7 +77,7 @@ sns.scatterplot(x=mfcc_features[:, 3], y=mfcc_features[:, 4], hue=labels, palett
 #sns.scatterplot(x=mfcc_features[:, 3], y=mfcc_features[:, 4], hue=labels, palette="viridis")
 plt.xlabel("MFCC Feature 4")
 plt.ylabel("MFCC Feature 5")
-plt.title("Data Distribution for the First Two MFCC Features")
+plt.title("Data Distribution for the 4th and 5th MFCC Features")
 plt.show()
 
 # Save the model to a file
